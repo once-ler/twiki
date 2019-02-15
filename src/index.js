@@ -1,0 +1,2 @@
+global.jsonp = require('jsonp')
+

@@ -1,0 +1,1 @@
+global.AutoComplete = require('./autocomplete')
