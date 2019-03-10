@@ -6,54 +6,6 @@
         Demo auto complete
     </title>
     <style>
-    .autocomplete_container {
-      display: flex;
-      flex-direction: column;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
-
-    .autocomplete {
-      border: 1px solid silver;
-      outline: none;
-      margin: 0;
-      background: #fff;
-    }
-
-    .autocomplete_result {
-      border: 1px solid silver;
-      border-top: 0;
-      overflow: auto;
-      max-height: 323px;
-      background: #fff;
-    }
-
-    .autocomplete {
-      width: 200px;
-    }
-
-    .autocomplete_result {
-      /*width: 100%;*/
-      min-width: 200px;
-      max-width: 300px;
-      z-index: 99;
-    }
-
-    .autocomplete, .autocomplete_result p {
-      padding: 4px;
-      margin: 0;
-      color: #000;
-    }
-
-    .autocomplete_result p:nth-child(2n+1) {
-      background: #f6f6f6;
-    }
-
-    .autocomplete_result p:hover {
-      background: #e5e5e5;
-    }
-
     body, html {
       padding: 0;
       margin: 0;
@@ -74,13 +26,10 @@
         height: 100%;
         min-height: 100%;
       }
-    }   
-
+    }
     </style>
-    <!--
-    <script src="jsonp.js" ></script>
-    <script src="lib/autocomplete.js" ></script>
-    -->
+    <link rel="stylesheet" type="text/css" href="autocomplete.css" />
+    <script src="autocomplete.js" ></script>    
 </head>
 <body>
   <div id="app"></div>

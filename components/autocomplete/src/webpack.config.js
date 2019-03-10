@@ -1,5 +1,7 @@
 const path = require('path')
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 
 module.exports = {
   context: path.resolve(__dirname, '.'),
@@ -10,7 +12,18 @@ module.exports = {
     path: path.resolve(__dirname, '../../../dist'),
     filename: 'autocomplete.js',
     library: 'AutoComplete',
-    libraryTarget: 'var'
+    libraryExport: 'default',
+    libraryTarget: 'umd'
+  },
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true // set to true if you want JS source maps
+      }),
+      new OptimizeCSSAssetsPlugin({})
+    ]
   },
   module: {
     rules: [
@@ -23,7 +36,10 @@ module.exports = {
       },      
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"]
+        // use: [MiniCssExtractPlugin.loader,"css-loader"] // Replaces  extract-text-webpack-plugin
+        use: {
+          loader: 'css-loader'
+        }
       }
     ]
   },
