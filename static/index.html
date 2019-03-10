@@ -7,13 +7,14 @@
     </title>
     <style>
     body, html {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       padding: 0;
-      margin: 0;
+      margin: 20px;
       height: 100%;
       width: 100%;
       min-height: 100%;
       min-width: 100%;
-      text-align: center;
+      text-align: left;
     }
     body {
       overflow: hidden;
@@ -33,45 +34,27 @@
 </head>
 <body>
   <div id="app"></div>
+  <h3>Search reddit</h3>
   <p>
     <div class="autocomplete_container">
     <input id="autocomplete" type="search" class="autocomplete"/>
     </div>
+    <pre id="autocomplete-log"></pre>
   </p>
   <p>
     <div class="autocomplete_container">
     <input id="autocomplete2" type="search" class="autocomplete"/>
     </div>
+    <pre id="autocomplete2-log"></pre>
   </p>
   <p>
     <div class="autocomplete_container">
     <input name="A:B:C" type="text" class="autocomplete"/>
     </div>
+    <pre id="autocomplete3-log"></pre>
   </p>
     
-    <script>
-      /*
-      new AutoComplete(
-        {
-          endpoint: 'https://www.reddit.com/search.json?restrict_sr=1&limit=5&jsonp=callback&q=',
-          elemId:'autocomplete'
-        }
-      );
-      
-      new AutoComplete(
-        {
-          endpoint: 'https://www.reddit.com/search.json?restrict_sr=1&limit=5&jsonp=callback&q=',
-          elemId:'autocomplete2'
-        }
-      );
-      
-      new AutoComplete(
-        {
-          endpoint: 'https://www.reddit.com/search.json?restrict_sr=1&limit=5&jsonp=callback&q='
-        },
-        document.querySelector("[name='A:B:C']")
-      );
-      */
+    <script>      
     </script>
     
   </body>
