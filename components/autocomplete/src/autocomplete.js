@@ -18,7 +18,7 @@ class AutoComplete {
       throw new Error('Either the element argument is undefined or not an input node type.')
     
     if (!this.autocomplete.getAttribute("id")) {
-      this.elemId = 'ac_' + (new Date().getTime()).toString(16)
+      this.elemId = 'ac_' + ((new Date().getTime()) + Math.floor(Math.random() * 1000) + 1).toString(16)
       this.autocomplete.setAttribute("id", this.elemId)
     }
     
