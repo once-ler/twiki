@@ -1,7 +1,7 @@
 {
   "name": "v4",
-  "version": "0.1.5",
-  "description": "V4",
+  "version": "0.1.6",
+  "description": "bidi bidi bidi",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --mode development --open",
@@ -10,7 +10,7 @@
     "build:component:autotags": "webpack --mode production --config components/autotags/src/webpack.config.js"
   },
   "keywords": [
-    "V4"
+    "bidi bidi bidi"
   ],
   "author": "Henry Tao",
   "license": "MIT",

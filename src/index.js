@@ -39,4 +39,21 @@ new AutoTags(
 )
 
 const ac4 = document.querySelector("[name='/D/E/F']")
-ac4.onchange = () => setTimeout(() => { document.getElementById('autotags-log').innerHTML = `reddit id: ${ac4.dataset.id}` }, 200)
+ac4.onchange = () => setTimeout(() => { document.getElementById('autotags-log').innerHTML = `reddit id: ${ac4.dataset.list}` }, 200)
+
+new AutoTags(
+  {
+    endpoint: 'https://www.reddit.com/search.json?restrict_sr=1&limit=5&jsonp=callback&q=',
+    itemOnClick: item => console.log(item),
+    itemOnRemove: item => {
+      console.log(item)
+
+      const ac5 = document.querySelector("[name='/G/H/I']")
+      setTimeout(() => { document.getElementById('autotags2-log').innerHTML = `reddit id: ${ac5.dataset.list}` }, 200)
+    }
+  },
+  document.querySelector("[name='/G/H/I']")
+)
+
+const ac5 = document.querySelector("[name='/G/H/I']")
+ac5.onchange = () => setTimeout(() => { document.getElementById('autotags2-log').innerHTML = `reddit id: ${ac5.dataset.list}` }, 200)

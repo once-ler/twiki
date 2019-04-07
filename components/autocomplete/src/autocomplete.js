@@ -74,8 +74,8 @@ class AutoComplete {
       d.dataset.id = code
       d.innerText = display
       d.onclick = () => {
-        var autocomplete = document.querySelector(`#${elemId}`)
-        var autocomplete_result = document.querySelector(`#${elemId}_result`)
+        const autocomplete = document.querySelector(`#${elemId}`)
+        const autocomplete_result = document.querySelector(`#${elemId}_result`)
         autocomplete.dataset.id = code
         autocomplete.value = display
         autocomplete_result.innerHTML=''

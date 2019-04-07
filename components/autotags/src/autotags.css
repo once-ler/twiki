@@ -1,60 +1,60 @@
-div .autotags {
+div .autotags-list {
   display: block;
-  position: absolute;
-  top: 51px;
-  width: 280px;
-  /* border: 1px solid #aaa; */
+  width: 210px;
   background-color: #fff;
   font-weight: 300;
-  font-size: 16px;
-  /* border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px; */
   z-index: 2;
+  margin-bottom: 10px;
 }
 
-.autotags label {
+.autotags-list label {
   white-space: pre;
   word-break: break-word;
-  padding: 15px 60px 15px 15px;
-  margin-left: 45px;
+  padding: 8px 0px 8px 5px;
+  width: 170px;
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
   display: block;
-  line-height: 1.2;
+  line-height: 1.1;
   transition: color 0.4s;
 }
 
-.autotags ul {
+.autotags-list ul {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.autotags li {
+.autotags-list li {
   position: relative;
-  font-size: 24px;
   box-shadow: 0 -1px 0 #ededed;
   overflow: hidden;
 }
 
-.autotags li:last-child {
+.autotags-list li:nth-child(2n+1) {
+  background: #f6f6f6;
+}
+
+.autotags-list li:last-child {
   box-shadow: 0 2px 4px #aaa;
 }
 
-.autotags li:hover > button {
+.autotags-list li:hover > button {
   display: block;
 }
 
-.autotags button {
+.autotags-list button {
   display: none;
   position: absolute;
-  top: 0;
-  right: 10px;
-  bottom: 0;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
   width: 40px;
   height: 40px;
   margin: auto 0;
-  font-size: 30px;
+  font-size: 35px;
   color: #cc9a9a;
-  margin-bottom: 11px;
   background: none;
   border: 0;
   padding: 0;
@@ -62,10 +62,10 @@ div .autotags {
   cursor: pointer;
 }
 
-.autotags button:hover {
+.autotags-list button:hover {
   color: #af5b5e;
 }
 
-.autotags button:after {
+.autotags-list button:after {
   content: '×';
 }
