@@ -30,11 +30,15 @@
     }
     </style>
     <link rel="stylesheet" type="text/css" href="autocomplete.css" />
-    <script src="autocomplete.js" ></script>    
+    <link rel="stylesheet" type="text/css" href="autotags.css" />
+    <script src="autocomplete.js" ></script>
+    <script src="autotags.js" ></script>   
 </head>
 <body>
   <div id="app"></div>
   <h3>Search reddit</h3>
+  <hr/>
+  <h4>AutoComplete</h4>
   <p>
     <div class="autocomplete_container">
     <input id="autocomplete" type="search" class="autocomplete"/>
@@ -52,6 +56,13 @@
     <input name="A:B:C" type="text" class="autocomplete"/>
     </div>
     <pre id="autocomplete3-log"></pre>
+  </p>
+  <h4>AutoTags</h4>
+  <p>
+    <div class="autocomplete_container">
+    <input name="/D/E/F" type="text" class="autocomplete"/>
+    </div>
+    <pre id="autotags-log"></pre>
   </p>
     
     <script>      

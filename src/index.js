@@ -30,3 +30,13 @@ new AutoComplete(
 const ac3 = document.querySelector("[name='A:B:C']")
 ac3.onchange = () => setTimeout(() => { document.getElementById('autocomplete3-log').innerHTML = `reddit id: ${ac3.dataset.id}` }, 200)
 
+new AutoTags(
+  {
+    endpoint: 'https://www.reddit.com/search.json?restrict_sr=1&limit=5&jsonp=callback&q=',
+    itemOnClick: item => console.log(item)
+  },
+  document.querySelector("[name='/D/E/F']")
+)
+
+const ac4 = document.querySelector("[name='/D/E/F']")
+ac4.onchange = () => setTimeout(() => { document.getElementById('autotags-log').innerHTML = `reddit id: ${ac4.dataset.id}` }, 200)
