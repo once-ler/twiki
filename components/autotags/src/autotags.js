@@ -40,7 +40,7 @@ class AutoTags {
     const itemLbl = document.createElement('label')
     itemLbl.appendChild(document.createTextNode(item.display))
     const itemDestroy = document.createElement('button')
-    itemDestroy.onclick = () => {console.log('destroy')}
+    itemDestroy.onclick = () => itemEl.parentNode.removeChild(itemEl)
 
     itemEl.appendChild(itemLbl)
     itemLbl.parentNode.insertBefore(itemDestroy, itemLbl.nextSibling)
@@ -52,6 +52,7 @@ class AutoTags {
     if (keys.indexOf(item.code) === -1) {
       this.tags.push(item)
       this.appendToList(item)
+      this.autocomplete_el.value = '';
     }
 
     this.userItemOnClick && this.userItemOnClick(item)

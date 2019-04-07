@@ -37,9 +37,7 @@ module.exports = {
       {
         test: /\.css$/,
         // use: [MiniCssExtractPlugin.loader,"css-loader"] // Replaces  extract-text-webpack-plugin
-        use: {
-          loader: 'css-loader'
-        }
+        use: ['style-loader', 'css-loader']
       }
     ]
   },
