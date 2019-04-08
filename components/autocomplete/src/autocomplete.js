@@ -28,6 +28,7 @@ class AutoComplete {
     const resDiv = document.createElement("div")
     resDiv.setAttribute("id", `${this.elemId}_result`)
     resDiv.setAttribute("class", 'autocomplete_result')
+    resDiv.style.display = 'none'
     this.autocomplete_result = resDiv
     
     this.autocomplete.parentNode.insertBefore(this.autocomplete_result, this.autocomplete.nextSibling)
