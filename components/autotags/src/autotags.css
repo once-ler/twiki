@@ -48,7 +48,7 @@ div .autotags-list {
   display: none;
   position: absolute;
   top: 0px;
-  right: 0px;
+  right: 5px;
   bottom: 0px;
   width: 40px;
   height: 40px;
@@ -60,6 +60,7 @@ div .autotags-list {
   padding: 0;
   transition: color 0.2s ease-out;
   cursor: pointer;
+  text-align: right;
 }
 
 .autotags-list button:hover {
