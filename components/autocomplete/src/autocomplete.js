@@ -20,6 +20,9 @@ class AutoComplete {
     if (!this.autocomplete.getAttribute("id")) {
       this.elemId = 'ac_' + ((new Date().getTime()) + Math.floor(Math.random() * 1000) + 1).toString(16)
       this.autocomplete.setAttribute("id", this.elemId)
+    } else {
+      // When user does not pass the id of element, but an element with an id attribute.
+      this.elemId = this.autocomplete.getAttribute("id");
     }
     
     this.autocomplete.setAttribute('onlclick', 'this.setSelectionRange(0, this.value.length)')
@@ -64,7 +67,7 @@ class AutoComplete {
       return
     }
 
-    const elemId = this.elemId      
+    const elemId = this.elemId
     const itemOnClick = this.itemOnClick
     const b = document.createDocumentFragment();
 
@@ -75,8 +78,8 @@ class AutoComplete {
       d.dataset.id = code
       d.innerText = display
       d.onclick = () => {
-        const autocomplete = document.querySelector(`#${elemId}`)
-        const autocomplete_result = document.querySelector(`#${elemId}_result`)
+        const autocomplete = document.getElementById(`${elemId}`)
+        const autocomplete_result = document.getElementById(`${elemId}_result`)
         autocomplete.dataset.id = code
         autocomplete.value = display
         autocomplete_result.innerHTML=''
