@@ -26,10 +26,10 @@
 }
 
 .autocomplete_result {
-  /*width: 100%;*/
   min-width: 200px;
   max-width: 300px;
   z-index: 99;
+  position: relative;
 }
 
 .autocomplete, .autocomplete_result p {
@@ -44,4 +44,8 @@
 
 .autocomplete_result p:hover {
   background: #e5e5e5;
+}
+
+.autocomplete_result p {
+  font-size: 12px;
 }
