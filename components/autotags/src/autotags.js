@@ -29,6 +29,7 @@ class AutoTags {
 
     if (prevEl && this.hasClass(prevEl, 'autotags-list') && prevEl.querySelector('ul')) {
       const resList = prevEl.querySelector('ul')
+      this.appendDropdownButton(resList)
       this.autotags_result = resList
       // Attach destroy button to each li item.
       const items = resList.children
@@ -59,6 +60,7 @@ class AutoTags {
     resContainer.setAttribute('class', 'autotags-list')
     const resList = document.createElement('ul')
     resContainer.appendChild(resList)
+    this.appendDropdownButton(resList)
     this.autotags_result = resList
 
     this.autocomplete_el.parentNode.insertBefore(resContainer, this.autocomplete_el)
@@ -102,6 +104,12 @@ class AutoTags {
     }
 
     this.userItemOnClick && this.userItemOnClick(item)
+  }
+
+  appendDropdownButton = resList => {
+    const itemDropdown = document.createElement('button')
+    itemDropdown.setAttribute('class', 'autotags-dd-btn')
+    resList.parentNode.insertBefore(itemDropdown, resList.nextSibling)
   }
 
   itemOnRemove = () => {}

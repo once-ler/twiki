@@ -1,10 +1,11 @@
 div .autotags-list {
-  display: block;
+  display: flex;
   width: 210px;
   background-color: #fff;
   font-weight: 300;
   z-index: 2;
   margin-bottom: 10px;
+  position: relative;
 }
 
 .autotags-list label {
@@ -44,7 +45,7 @@ div .autotags-list {
   display: block;
 }
 
-.autotags-list button {
+.autotags-list li button {
   display: none;
   position: absolute;
   top: 0px;
@@ -63,10 +64,19 @@ div .autotags-list {
   text-align: right;
 }
 
-.autotags-list button:hover {
+.autotags-list li button:hover {
   color: #af5b5e;
 }
 
-.autotags-list button:after {
+.autotags-list li button:after {
   content: '×';
+}
+
+.autotags-dd-btn {
+  width: 30px;
+  height: 30px;
+}
+
+.autotags-dd-btn:after {
+  content: '^';
 }
