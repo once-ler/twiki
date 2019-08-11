@@ -75,8 +75,25 @@ div .autotags-list {
 .autotags-dd-btn {
   width: 30px;
   height: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #af5b5e;
+  font-size: 20px;
+  border-radius:50%;
+  -moz-border-radius:50%;
+  -webkit-border-radius:50%;
 }
 
-.autotags-dd-btn:after {
-  content: '^';
+.autotags-dd-btn:hover {
+  box-shadow: 0 5px 10px #aaa;
+}
+
+/* https://www.w3schools.com/charsets/ref_utf_geometric.asp */
+.autotags-dd-btn.down:after {
+  content: '\25BC';
+}
+
+.autotags-dd-btn.up:after {
+  content: '\25B2';
 }

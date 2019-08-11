@@ -108,7 +108,7 @@ class AutoTags {
 
   appendDropdownButton = resList => {
     const itemDropdown = document.createElement('button')
-    itemDropdown.setAttribute('class', 'autotags-dd-btn')
+    itemDropdown.setAttribute('class', 'autotags-dd-btn down')
     resList.parentNode.insertBefore(itemDropdown, resList.nextSibling)
   }
 
