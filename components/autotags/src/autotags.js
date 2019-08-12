@@ -13,6 +13,8 @@ class AutoTags {
 
   elemId = ''
 
+  dropdown_label = null
+
   constructor(props, elem) {
     const { itemOnClick, itemOnRemove } = props
     this.userItemOnClick = itemOnClick
@@ -51,6 +53,8 @@ class AutoTags {
     }
 
     itemOnRemove && (this.itemOnRemove = itemOnRemove)
+
+    this.dropdown_label && this.updateDropdownLabel()
   }
 
   hasClass = (ele, cls) => ele.getAttribute('class').indexOf(cls) > -1
@@ -76,6 +80,7 @@ class AutoTags {
       const nextTags = this.tags.filter(a => a.code !== itemEl.dataset.id)
       this.tags = nextTags
       this.autocomplete_el.dataset.list = JSON.stringify(this.tags)
+      this.updateDropdownLabel()
       this.itemOnRemove(itemToRemove)
     }
     const itemLbl = itemEl.firstElementChild
@@ -102,14 +107,30 @@ class AutoTags {
       this.autocomplete_el.dataset.list = JSON.stringify(this.tags)
       this.autocomplete_el.value = '';
     }
-
+    
+    this.updateDropdownLabel()
     this.userItemOnClick && this.userItemOnClick(item)
   }
 
   appendDropdownButton = resList => {
     const itemDropdown = document.createElement('button')
     itemDropdown.setAttribute('class', 'autotags-dd-btn down')
-    resList.parentNode.insertBefore(itemDropdown, resList.nextSibling)
+    itemDropdown.onclick = () => {
+      itemDropdown.classList.toggle('down')
+      itemDropdown.classList.toggle('up')
+      this.autotags_result.classList.toggle('visible')
+    }
+    resList.parentNode.insertBefore(itemDropdown, resList)
+    this.appendDropdownLabel(itemDropdown)
+  }
+
+  appendDropdownLabel = dropdownBtn => {
+    this.dropdown_label = document.createElement('label')
+    dropdownBtn.parentNode.insertBefore(this.dropdown_label, dropdownBtn)
+  }
+
+  updateDropdownLabel = () => {
+    this.dropdown_label && (this.dropdown_label.innerText = `${this.tags.length} items`)
   }
 
   itemOnRemove = () => {}

@@ -1,10 +1,10 @@
 {
   "name": "v4",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "bidi bidi bidi",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development --open",
+    "start": "npm run build:component:autocomplete && npm run build:component:autotags && webpack-dev-server --mode development --open",
     "build": "webpack --mode production",
     "build:component:autocomplete": "webpack --mode production --config components/autocomplete/src/webpack.config.js",
     "build:component:autotags": "webpack --mode production --config components/autotags/src/webpack.config.js"
