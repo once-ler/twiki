@@ -1,0 +1,194 @@
+<html>
+<head>
+<style>
+.container {
+  position: relative;
+  border: 1px solid #999;
+  height: 200px;
+  width: 320px;
+  overflow: auto;
+}
+
+.cell {
+  width: 300px;
+  padding: 0px 5px;
+  background: #777;
+  border: 1px solid #333;
+  overflow: visible;
+}
+
+pre {
+  margin: 0;
+  white-space: pre-wrap;       /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+</style>
+</head>
+<body>
+  <div class="container" id="root">
+  
+  </div>
+  
+<script>
+var loremIpsum1 = 
+`
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Purus in mollis nunc sed id semper risus in. Nunc scelerisque viverra mauris in aliquam sem fringilla ut. Feugiat scelerisque varius morbi enim nunc faucibus a pellentesque sit. Metus dictum at tempor commodo ullamcorper a. Odio ut enim blandit volutpat maecenas volutpat blandit aliquam. Turpis egestas integer eget aliquet nibh. Vitae justo eget magna fermentum iaculis eu non. Adipiscing vitae proin sagittis nisl rhoncus. Nunc pulvinar sapien et ligula ullamcorper. Et malesuada fames ac turpis egestas sed tempus urna. Facilisi cras fermentum odio eu feugiat. Aliquet eget sit amet tellus cras adipiscing enim eu turpis. Ipsum nunc aliquet bibendum enim facilisis gravida neque convallis a. Sit amet est placerat in. Varius quam quisque id diam vel quam elementum pulvinar. Pellentesque elit eget gravida cum sociis natoque penatibus et. Convallis a cras semper auctor. Cras fermentum odio eu feugiat pretium nibh ipsum consequat.
+`
+
+var loremIpsum5 =
+`
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Orci a scelerisque purus semper eget. Arcu risus quis varius quam quisque id. Pharetra massa massa ultricies mi quis. Arcu bibendum at varius vel. Mi in nulla posuere sollicitudin aliquam ultrices sagittis orci a. Aliquet sagittis id consectetur purus ut faucibus. Eget felis eget nunc lobortis mattis aliquam faucibus purus. Tempor orci eu lobortis elementum. Et malesuada fames ac turpis egestas sed tempus urna et. Nunc congue nisi vitae suscipit tellus. Eget duis at tellus at urna. Laoreet sit amet cursus sit amet. Donec enim diam vulputate ut pharetra sit amet aliquam. Proin libero nunc consequat interdum varius sit amet. Vel elit scelerisque mauris pellentesque pulvinar pellentesque. Eget sit amet tellus cras adipiscing enim eu. Pellentesque habitant morbi tristique senectus et netus. Amet justo donec enim diam.
+
+Tempus quam pellentesque nec nam aliquam sem et tortor. Id nibh tortor id aliquet. Quam viverra orci sagittis eu volutpat odio facilisis mauris. Ultricies integer quis auctor elit sed vulputate. Velit sed ullamcorper morbi tincidunt ornare massa. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce. Praesent elementum facilisis leo vel fringilla est ullamcorper eget. Scelerisque felis imperdiet proin fermentum leo vel orci porta non. Egestas maecenas pharetra convallis posuere morbi leo urna molestie. Sed arcu non odio euismod lacinia at quis risus. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce. At imperdiet dui accumsan sit amet nulla. Sed id semper risus in hendrerit gravida.
+
+Maecenas sed enim ut sem viverra aliquet. Pellentesque diam volutpat commodo sed. Donec adipiscing tristique risus nec feugiat. Sit amet est placerat in egestas. Consequat semper viverra nam libero justo laoreet sit amet cursus. Eget sit amet tellus cras adipiscing enim eu turpis. Mauris pharetra et ultrices neque. Proin nibh nisl condimentum id. Tortor at auctor urna nunc id cursus metus aliquam. Turpis egestas maecenas pharetra convallis posuere morbi leo urna molestie. Arcu ac tortor dignissim convallis. Duis at consectetur lorem donec massa. Varius quam quisque id diam vel. Eget gravida cum sociis natoque. In ornare quam viverra orci sagittis eu. Sed euismod nisi porta lorem mollis. Adipiscing at in tellus integer. Ultricies lacus sed turpis tincidunt id aliquet risus feugiat. Mattis rhoncus urna neque viverra justo. Etiam dignissim diam quis enim lobortis scelerisque fermentum.
+
+Eu non diam phasellus vestibulum lorem sed risus ultricies tristique. Ullamcorper dignissim cras tincidunt lobortis feugiat vivamus at. Ipsum suspendisse ultrices gravida dictum fusce. Sagittis nisl rhoncus mattis rhoncus. Quis viverra nibh cras pulvinar mattis nunc. Accumsan in nisl nisi scelerisque eu ultrices. Nibh tellus molestie nunc non blandit massa enim nec. Tellus in metus vulputate eu scelerisque. Adipiscing enim eu turpis egestas pretium. Enim diam vulputate ut pharetra sit. Sed enim ut sem viverra aliquet eget sit amet. Feugiat in fermentum posuere urna.
+
+Orci eu lobortis elementum nibh tellus molestie nunc. Purus non enim praesent elementum facilisis leo vel fringilla. Eu volutpat odio facilisis mauris sit amet. Justo donec enim diam vulputate. Velit egestas dui id ornare arcu. Gravida quis blandit turpis cursus in hac. Enim facilisis gravida neque convallis a cras semper. Cras semper auctor neque vitae. Tristique senectus et netus et. Lectus quam id leo in vitae turpis. Ornare massa eget egestas purus viverra. Mauris commodo quis imperdiet massa. Consequat nisl vel pretium lectus.
+
+Odio facilisis mauris sit amet massa vitae. Enim neque volutpat ac tincidunt. Lobortis feugiat vivamus at augue eget arcu dictum varius. In nisl nisi scelerisque eu ultrices vitae auctor eu augue. Suspendisse sed nisi lacus sed. Nulla facilisi morbi tempus iaculis urna id volutpat lacus. At auctor urna nunc id. Et netus et malesuada fames ac turpis egestas. Amet mauris commodo quis imperdiet. Iaculis urna id volutpat lacus laoreet non curabitur. A scelerisque purus semper eget duis at tellus. Amet nisl purus in mollis nunc sed id semper. Vitae purus faucibus ornare suspendisse sed nisi lacus sed viverra. Fermentum dui faucibus in ornare quam viverra. A pellentesque sit amet porttitor eget dolor morbi non arcu. Sed tempus urna et pharetra pharetra massa.
+
+Mattis ullamcorper velit sed ullamcorper morbi tincidunt ornare massa. Integer malesuada nunc vel risus. Id leo in vitae turpis massa sed. Aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis. Nisl vel pretium lectus quam id. Convallis convallis tellus id interdum velit laoreet id donec ultrices. Arcu cursus euismod quis viverra. Nulla aliquet porttitor lacus luctus accumsan tortor posuere. Vulputate ut pharetra sit amet. Egestas congue quisque egestas diam in arcu cursus euismod. Rhoncus dolor purus non enim praesent elementum facilisis leo vel.
+
+Consequat interdum varius sit amet mattis vulputate enim nulla aliquet. Ultrices tincidunt arcu non sodales neque. Iaculis at erat pellentesque adipiscing commodo elit at imperdiet dui. Sodales ut eu sem integer vitae justo eget magna. Elit scelerisque mauris pellentesque pulvinar. Pulvinar elementum integer enim neque volutpat. Vitae elementum curabitur vitae nunc sed velit dignissim sodales. In dictum non consectetur a erat nam at lectus. At elementum eu facilisis sed odio. Enim neque volutpat ac tincidunt vitae semper. Id consectetur purus ut faucibus pulvinar elementum integer enim. Pellentesque sit amet porttitor eget dolor morbi non arcu risus. Vitae congue eu consequat ac felis donec et. Nunc sed blandit libero volutpat sed cras.
+
+Habitasse platea dictumst vestibulum rhoncus. Ante metus dictum at tempor commodo ullamcorper a lacus vestibulum. Nibh venenatis cras sed felis eget velit. Integer malesuada nunc vel risus commodo viverra maecenas accumsan lacus. Fermentum posuere urna nec tincidunt praesent. Placerat duis ultricies lacus sed turpis tincidunt. Adipiscing elit pellentesque habitant morbi tristique senectus. Pellentesque massa placerat duis ultricies lacus sed turpis tincidunt id. Urna et pharetra pharetra massa massa ultricies mi quis. Habitasse platea dictumst quisque sagittis. Ipsum faucibus vitae aliquet nec ullamcorper sit amet risus nullam. Eu scelerisque felis imperdiet proin fermentum.
+
+A iaculis at erat pellentesque adipiscing commodo. Vulputate eu scelerisque felis imperdiet. Erat imperdiet sed euismod nisi porta lorem mollis aliquam. Sed ullamcorper morbi tincidunt ornare massa eget egestas. Sem integer vitae justo eget magna fermentum iaculis. Ut pharetra sit amet aliquam. Tincidunt arcu non sodales neque sodales ut etiam. A diam maecenas sed enim ut sem viverra. Ultricies integer quis auctor elit sed vulputate mi sit amet. Diam donec adipiscing tristique risus nec feugiat in fermentum posuere. Amet aliquam id diam maecenas ultricies mi eget mauris. Tempus egestas sed sed risus. Nunc mi ipsum faucibus vitae. Urna nunc id cursus metus aliquam eleifend mi. Nulla posuere sollicitudin aliquam ultrices sagittis orci a scelerisque purus. Augue mauris augue neque gravida. Nibh sed pulvinar proin gravida. Sit amet purus gravida quis. Urna duis convallis convallis tellus id interdum velit. Fermentum leo vel orci porta non pulvinar neque laoreet.
+`  
+</script>
+  
+<script>
+(function() {
+  
+  const lsz = 13;
+  const w = 300 - 10; // 10 for padding.
+  const h = 200;
+  const tSz = loremIpsum5.length;
+  let arrStr = loremIpsum5.split('')
+  
+  const newlines = (loremIpsum5.match(/\n/g) || []).length;
+  const newlineSz = newlines * Math.ceil(w / lsz); 
+  
+  const reqSz = (tSz * lsz) + newlineSz; 
+  const cellSz = Math.ceil((w * h) / lsz);
+  const chunks = reqSz / cellSz;
+  const chunkSz = Math.ceil(tSz / chunks);
+  
+  console.log(tSz)  
+  console.log(reqSz);
+  console.log(cellSz);
+  console.log(chunkSz);
+  
+  
+  const createRow = data => {
+    var itemText = document.createTextNode(data);
+    item = document.createElement('pre');
+    item.setAttribute('class', 'cell');
+    item.appendChild(itemText);
+    return item
+  }
+  
+  const fragments = []
+  
+  var fragment = document.createDocumentFragment();
+  for (let i = 0; i < Math.ceil(chunks); i++) {
+    const rm = arrStr.splice(0, chunkSz);
+    const next =  '(' + i + ') ' + rm.join('')
+    const item = createRow(next)
+    
+    fragments.push([fragments.length, item])
+  }
+  
+  const root = document.getElementById("root");
+  
+  var isScrolling;
+  
+  var curScrollTop = 0
+  var curScrollHeight = root.scrollHeight;
+  
+  var curVp = fragments.length > 0 ? fragments.length - 4 : fragments.length
+  var bumpScrollTop
+  
+  const onStoppedScrolling = () => {
+    console.log(curScollTop, curScrollHeight)
+    // console.log(curScrollHeight - curScollTop + h, curScrollHeight)
+    
+    // Scrolling up.
+    if ((curScrollHeight - curScollTop + h > curScrollHeight) && curVp > 0) {      
+      console.log('Scrolling up')   
+      const chunk = fragments.slice(curVp - 1)
+      curVp = curVp - 1
+      
+      // Prepend
+      const item = chunk[0][1]      
+      root.insertBefore(item, root.firstChild)
+      
+      // Remove
+      root.removeChild(root.lastChild)
+      
+      curScrollHeight = root.scrollHeight
+      
+      // Bump the scrollbar a little down.
+      if (curScrollTop === 0) {
+        bumpScrollTop = setTimeout(() => { 
+          root.scrollTop = curScrollTop + 20    
+        }, 200)
+      }      
+    }
+    
+    // Scrolling down.
+    if ((curScrollHeight - (h * 1.5) < curScollTop) && curVp > 0) {      
+      console.log('Scrolling down') 
+      
+      console.log(curVp) 
+    }
+    
+    window.clearTimeout( isScrolling );    
+  }
+  
+  var isScrolling;
+  
+  root.onscroll = e => {
+    window.clearTimeout(bumpScrollTop)
+    
+    curScollTop = e.target.scrollTop;
+    curScrollHeight = e.target.scrollHeight
+    
+    isScrolling = setTimeout(onStoppedScrolling, 200);
+  }
+  
+  setTimeout(() => { 
+    const chunk = fragments.slice(curVp)
+    for (let i = 0; i < chunk.length; i++) {
+      const item = chunk[i][1]
+      root.appendChild(item)
+    }
+    
+    
+    root.scrollTop = root.scrollHeight;
+  }, 200)
+})()
+</script>  
+  
+</body>
+</html>
+
+<!--
+Pixels	EMs	Percent	Points
+6px	0.375em	37.5%	5pt
+7px	0.438em	43.8%	5pt
+8px	0.5em	50%	6pt
+9px	0.563em	56.3%	7pt
+10px	0.625em	62.5%	8pt
+11px	0.688em	68.8%	8pt
+12px	0.75em	75%	9pt
+13px	0.813em	81.3%	10pt
+14px	0.875em	87.5%	11pt
+15px	0.938em	93.8%	11pt
+16px	1em	100%	12pt
+-->
