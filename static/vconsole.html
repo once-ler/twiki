@@ -29,7 +29,7 @@ pre {
 </head>
 <body>
   <div class="container" id="root">
-  
+
   </div>
   
 <script>
@@ -64,10 +64,17 @@ A iaculis at erat pellentesque adipiscing commodo. Vulputate eu scelerisque feli
   
 <script>
 (function() {
-  
+  let w;
+  let h;
+
+  const root = document.getElementById("root");
+  const rect = root.getBoundingClientRect();
+  h = rect.height
+  w = rect.width - 10; // 10 for padding.
+
+  console.log(w, h)
+
   const lsz = 13;
-  const w = 300 - 10; // 10 for padding.
-  const h = 200;
   const tSz = loremIpsum5.length;
   let arrStr = loremIpsum5.split('')
   
@@ -79,73 +86,109 @@ A iaculis at erat pellentesque adipiscing commodo. Vulputate eu scelerisque feli
   const chunks = reqSz / cellSz;
   const chunkSz = Math.ceil(tSz / chunks);
   
-  console.log(tSz)  
-  console.log(reqSz);
-  console.log(cellSz);
-  console.log(chunkSz);
+  // console.log(tSz)  
+  // console.log(reqSz);
+  // console.log(cellSz);
+  // console.log(chunkSz);
   
-  
-  const createRow = data => {
+  const createRow = (idx, data) => {
     var itemText = document.createTextNode(data);
     item = document.createElement('pre');
     item.setAttribute('class', 'cell');
+    item.dataset.idx = idx 
     item.appendChild(itemText);
     return item
   }
   
   const fragments = []
   
-  var fragment = document.createDocumentFragment();
+  var fragmentroot = document.createDocumentFragment();
+
   for (let i = 0; i < Math.ceil(chunks); i++) {
     const rm = arrStr.splice(0, chunkSz);
     const next =  '(' + i + ') ' + rm.join('')
-    const item = createRow(next)
+    const item = createRow(fragments.length, next)
     
     fragments.push([fragments.length, item])
   }
   
-  const root = document.getElementById("root");
-  
   var isScrolling;
   
+  var curScrollDirection = 0
   var curScrollTop = 0
   var curScrollHeight = root.scrollHeight;
   
   var curVp = fragments.length > 0 ? fragments.length - 4 : fragments.length
   var bumpScrollTop
   
+  var isVolatile = 0
+
   const onStoppedScrolling = () => {
-    console.log(curScollTop, curScrollHeight)
-    // console.log(curScrollHeight - curScollTop + h, curScrollHeight)
-    
+    console.log(curScrollTop, curScrollHeight)
+    console.log(curScrollHeight - curScrollTop + h, curScrollHeight)
+    console.log(curScrollTop, root.scrollHeight)
+
+    if ((curScrollTop + h + 20 > curScrollHeight)) {
+      console.log('Scrolling down', isVolatile)
+      const lastVp = parseInt(root.lastElementChild.dataset.idx)
+      
+      if (!isVolatile && fragments.length > (lastVp + 1)) {
+        isVolatile = 1
+      
+        // append
+        console.log('Re-appending')
+
+        const chunk = fragments.slice(lastVp + 1)
+        curVp = curVp + 1
+        console.log('curVp: '+curVp)
+        
+        // Append
+        const item = chunk[0][1]
+        console.log('Appended: ' + item.dataset.idx)      
+        root.appendChild(item)
+        
+        // Remove
+        root.removeChild(root.firstChild)
+        
+        console.log(root.scrollTop, root.scrollHeight)
+
+        curScrollHeight = root.scrollHeight - 20
+
+        console.log(curScrollHeight)
+
+        // Move up a little.
+        console.log('Bumping')
+        root.scrollTop = curScrollHeight
+        isVolatile = 0
+      }
+    }
+
     // Scrolling up.
-    if ((curScrollHeight - curScollTop + h > curScrollHeight) && curVp > 0) {      
-      console.log('Scrolling up')   
+    if (!isVolatile && (curScrollHeight - curScrollTop + h > curScrollHeight) && curVp > 0) {      
+      isVolatile = 1
+      // console.log('Scrolling up')   
       const chunk = fragments.slice(curVp - 1)
       curVp = curVp - 1
       
+      console.log('prepend', root.children.length)
       // Prepend
       const item = chunk[0][1]      
       root.insertBefore(item, root.firstChild)
       
       // Remove
-      root.removeChild(root.lastChild)
+      root.removeChild(root.lastElementChild)
       
       curScrollHeight = root.scrollHeight
       
       // Bump the scrollbar a little down.
       if (curScrollTop === 0) {
         bumpScrollTop = setTimeout(() => { 
-          root.scrollTop = curScrollTop + 20    
-        }, 200)
-      }      
-    }
-    
-    // Scrolling down.
-    if ((curScrollHeight - (h * 1.5) < curScollTop) && curVp > 0) {      
-      console.log('Scrolling down') 
-      
-      console.log(curVp) 
+          root.scrollTop = curScrollTop + 20
+          isVolatile = 0   
+        }, 100)
+      } else {
+        isVolatile = 0
+      }    
     }
     
     window.clearTimeout( isScrolling );    
@@ -155,23 +198,27 @@ A iaculis at erat pellentesque adipiscing commodo. Vulputate eu scelerisque feli
   
   root.onscroll = e => {
     window.clearTimeout(bumpScrollTop)
+
+    var st = e.target.scrollTop
     
-    curScollTop = e.target.scrollTop;
+    curScrollTop = st
     curScrollHeight = e.target.scrollHeight
     
-    isScrolling = setTimeout(onStoppedScrolling, 200);
+    isScrolling = setTimeout(onStoppedScrolling, 100);
   }
   
-  setTimeout(() => { 
+  setTimeout(() => {
+    // Clear whitespace
+    root.lastChild && root.lastChild.nodeType === 3 && (root.lastChild.nodeValue = '')
+
     const chunk = fragments.slice(curVp)
     for (let i = 0; i < chunk.length; i++) {
       const item = chunk[i][1]
       root.appendChild(item)
     }
-    
-    
     root.scrollTop = root.scrollHeight;
-  }, 200)
+    console.log(root.scrollTop, root.scrollHeight)
+  }, 100)
 })()
 </script>  
   
