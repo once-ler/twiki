@@ -83,13 +83,14 @@ A iaculis at erat pellentesque adipiscing commodo. Vulputate eu scelerisque feli
   
   const reqSz = (tSz * lsz) + newlineSz; 
   const cellSz = Math.ceil((w * h) / lsz);
-  const chunks = reqSz / cellSz;
+  const chunks = Math.ceil(reqSz / cellSz);
   const chunkSz = Math.ceil(tSz / chunks);
   
-  // console.log(tSz)  
-  // console.log(reqSz);
-  // console.log(cellSz);
-  // console.log(chunkSz);
+  console.log('text size: '+tSz)  
+  console.log('required size: '+reqSz);
+  console.log('cell size: '+cellSz);
+  console.log('chunk count: '+chunks);
+  console.log('chunk size: '+chunkSz);
   
   const createRow = (idx, data) => {
     var itemText = document.createTextNode(data);
@@ -104,14 +105,14 @@ A iaculis at erat pellentesque adipiscing commodo. Vulputate eu scelerisque feli
   
   var fragmentroot = document.createDocumentFragment();
 
-  for (let i = 0; i < Math.ceil(chunks); i++) {
+  for (let i = 0; i < chunks; i++) {
     const rm = arrStr.splice(0, chunkSz);
     const next =  '(' + i + ') ' + rm.join('')
     const item = createRow(fragments.length, next)
     
     fragments.push([fragments.length, item])
   }
-  
+
   var isScrolling;
   
   var curScrollDirection = 0
@@ -152,7 +153,7 @@ A iaculis at erat pellentesque adipiscing commodo. Vulputate eu scelerisque feli
         
         console.log(root.scrollTop, root.scrollHeight)
 
-        curScrollHeight = root.scrollHeight - 20
+        curScrollHeight = root.scrollHeight - (2 * h)
 
         console.log(curScrollHeight)
 
