@@ -1,20 +1,31 @@
 <html>
 <head>
 <style>
-.container {
+.vconsole-content {
   position: relative;
   border: 1px solid #999;
+  background: #000;
+
+  overflow: auto;
   height: 200px;
   width: 320px;
-  overflow: auto;
+  flex: 1; 
+  min-width: 0;
 }
 
-.cell {
+span.cell {
   width: 300px;
-  padding: 0px 5px;
-  background: #777;
-  border: 1px solid #333;
   overflow: visible;
+  max-width: 100%;
+  color: #fff;
+
+  unicode-bidi: embed;
+  font-family: monospace;
+  white-space: pre-wrap;       /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
 }
 
 pre {
@@ -25,12 +36,29 @@ pre {
   white-space: -o-pre-wrap;    /* Opera 7 */
   word-wrap: break-word;       /* Internet Explorer 5.5+ */
 }
+
+.container1 span {
+  /*display: inline-flexbox;*/
+  unicode-bidi: embed;
+  font-family: monospace;
+  white-space: pre-wrap;       /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
 </style>
 </head>
 <body>
-  <div class="container" id="root">
+  <div id="vc-0" />
 
+  <!--
+  <div class="vconsole-container">
+    <div class="vconsole-content">
+    </div>
   </div>
+  -->
   
 <script>
 var loremIpsum1 = 
@@ -67,34 +95,90 @@ A iaculis at erat pellentesque adipiscing commodo. Vulputate eu scelerisque feli
   let w;
   let h;
 
-  const root = document.getElementById("root");
-  const rect = root.getBoundingClientRect();
+  let isPaused = 0
+
+  const vcontainer = document.getElementById('vc-0')
+  vcontainer.setAttribute('class', 'vconsole-container')
+
+  const vcontent = document.createElement('div')
+  vcontent.setAttribute('class', 'vconsole-content')
+
+  vcontainer.appendChild(vcontent)
+
+  const vbutton = document.createElement('button')
+  vbutton.setAttribute('class', 'vconsole-button')
+  vbutton.appendChild(document.createTextNode('Pause'))
+  vbutton.onclick = () => {
+    const txt = vbutton.innerText
+    vbutton.innerText = txt === 'Pause' ? 'Resume' : 'Pause'
+    isPaused = txt === 'Pause' ? 1 : 0
+  }
+  vcontainer.appendChild(vbutton)
+
+  const rect = vcontent.getBoundingClientRect();
   h = rect.height
   w = rect.width - 10; // 10 for padding.
 
-  console.log(w, h)
+  
+  
 
   const lsz = 13;
-  const tSz = loremIpsum5.length;
+  let tSz = loremIpsum5.length;
   let arrStr = loremIpsum5.split('')
   
-  const newlines = (loremIpsum5.match(/\n/g) || []).length;
-  const newlineSz = newlines * Math.ceil(w / lsz); 
+  let newlines = (loremIpsum5.match(/\n/g) || []).length;
+  let newlineSz = newlines * Math.ceil(w / lsz); 
   
-  const reqSz = (tSz * lsz) + newlineSz; 
-  const cellSz = Math.ceil((w * h) / lsz);
-  const chunks = Math.ceil(reqSz / cellSz);
-  const chunkSz = Math.ceil(tSz / chunks);
+  let reqSz = (tSz * lsz) + newlineSz; 
+  let cellSz = Math.ceil((w * h) / lsz);
+  let chunks = Math.ceil(reqSz / cellSz);
+  let chunkSz = Math.ceil(tSz / chunks);
+
+  const recalc = text => {
+    const tSz = text.length;
+    const arrStr = text.split('')
+    
+    const newlines = (text.match(/\n/g) || []).length;
+    const newlineSz = newlines * Math.ceil(w / lsz); 
+    
+    const reqSz = (tSz * lsz) + newlineSz; 
+    const cellSz = Math.ceil((w * h) / lsz);
+    const chunks = Math.ceil(reqSz / cellSz);
+    const chunkSz = Math.ceil(tSz / chunks);
+
+    console.log('text size: '+tSz)  
+    console.log('required size: '+reqSz);
+    console.log('cell size: '+cellSz);
+    console.log('chunk count: '+chunks);
+    console.log('chunk size: '+chunkSz);
+
+    return {arrStr, chunks, chunkSz}
+  }
+
+  const createFragments = ({arrStr, chunks, chunkSz}) => {
+    for (let i = 0; i < chunks; i++) {
+      const rm = arrStr.splice(0, chunkSz);
+      const len = fragments.length
+      const next = '\r\n(' + len + ')\r\n' + rm.join('')
+      const item = createRow(len, next)
+      
+      fragments.push([len, item])
+    }
+  }
+
   
+  
+  /*
   console.log('text size: '+tSz)  
   console.log('required size: '+reqSz);
   console.log('cell size: '+cellSz);
   console.log('chunk count: '+chunks);
   console.log('chunk size: '+chunkSz);
-  
+  */
+
   const createRow = (idx, data) => {
     var itemText = document.createTextNode(data);
-    item = document.createElement('pre');
+    item = document.createElement('span');
     item.setAttribute('class', 'cell');
     item.dataset.idx = idx 
     item.appendChild(itemText);
@@ -103,35 +187,46 @@ A iaculis at erat pellentesque adipiscing commodo. Vulputate eu scelerisque feli
   
   const fragments = []
   
-  var fragmentroot = document.createDocumentFragment();
+  const queue = []
 
+  // var fragmentvcontent = document.createDocumentFragment();
+
+  /*
   for (let i = 0; i < chunks; i++) {
     const rm = arrStr.splice(0, chunkSz);
-    const next =  '(' + i + ') ' + rm.join('')
+    // const next =  '\r\n(' + i + ')\r\n' + rm.join('')
+    const next = rm.join('')
     const item = createRow(fragments.length, next)
     
     fragments.push([fragments.length, item])
   }
+  */
 
-  var isScrolling;
+  var onScrollTimer;
   
   var curScrollDirection = 0
   var curScrollTop = 0
-  var curScrollHeight = root.scrollHeight;
+  var curScrollHeight = vcontent.scrollHeight;
   
-  var curVp = fragments.length > 0 ? fragments.length - 4 : fragments.length
+  const maxVp = 4
+
+  var curVp = fragments.length > maxVp ? fragments.length - maxVp : fragments.length
   var bumpScrollTop
   
   var isVolatile = 0
 
+  var isScrolling = 0
+
   const onStoppedScrolling = () => {
+    isScrolling = 0
+
     console.log(curScrollTop, curScrollHeight)
     console.log(curScrollHeight - curScrollTop + h, curScrollHeight)
-    console.log(curScrollTop, root.scrollHeight)
+    console.log(curScrollTop, vcontent.scrollHeight)
 
     if ((curScrollTop + h + 20 > curScrollHeight)) {
       console.log('Scrolling down', isVolatile)
-      const lastVp = parseInt(root.lastElementChild.dataset.idx)
+      const lastVp = parseInt(vcontent.lastElementChild.dataset.idx)
       
       if (!isVolatile && fragments.length > (lastVp + 1)) {
         isVolatile = 1
@@ -146,20 +241,20 @@ A iaculis at erat pellentesque adipiscing commodo. Vulputate eu scelerisque feli
         // Append
         const item = chunk[0][1]
         console.log('Appended: ' + item.dataset.idx)      
-        root.appendChild(item)
+        vcontent.appendChild(item)
         
         // Remove
-        root.removeChild(root.firstChild)
+        vcontent.removeChild(vcontent.firstChild)
         
-        console.log(root.scrollTop, root.scrollHeight)
+        console.log(vcontent.scrollTop, vcontent.scrollHeight)
 
-        curScrollHeight = root.scrollHeight - (2 * h)
+        curScrollHeight = vcontent.scrollHeight - (2 * h)
 
         console.log(curScrollHeight)
 
         // Move up a little.
         console.log('Bumping')
-        root.scrollTop = curScrollHeight
+        vcontent.scrollTop = curScrollHeight
         isVolatile = 0
       }
     }
@@ -171,20 +266,20 @@ A iaculis at erat pellentesque adipiscing commodo. Vulputate eu scelerisque feli
       const chunk = fragments.slice(curVp - 1)
       curVp = curVp - 1
       
-      console.log('prepend', root.children.length)
+      console.log('prepend', vcontent.children.length)
       // Prepend
       const item = chunk[0][1]      
-      root.insertBefore(item, root.firstChild)
+      vcontent.insertBefore(item, vcontent.firstChild)
       
       // Remove
-      root.removeChild(root.lastElementChild)
+      vcontent.removeChild(vcontent.lastElementChild)
       
-      curScrollHeight = root.scrollHeight
+      curScrollHeight = vcontent.scrollHeight
       
       // Bump the scrollbar a little down.
       if (curScrollTop === 0) {
         bumpScrollTop = setTimeout(() => { 
-          root.scrollTop = curScrollTop + 20
+          vcontent.scrollTop = curScrollTop + 20
           isVolatile = 0   
         }, 100)
       } else {
@@ -192,12 +287,11 @@ A iaculis at erat pellentesque adipiscing commodo. Vulputate eu scelerisque feli
       }    
     }
     
-    window.clearTimeout( isScrolling );    
+    window.clearTimeout( onScrollTimer );    
   }
   
-  var isScrolling;
-  
-  root.onscroll = e => {
+  vcontent.onscroll = e => {
+    isScrolling = 1
     window.clearTimeout(bumpScrollTop)
 
     var st = e.target.scrollTop
@@ -205,21 +299,76 @@ A iaculis at erat pellentesque adipiscing commodo. Vulputate eu scelerisque feli
     curScrollTop = st
     curScrollHeight = e.target.scrollHeight
     
-    isScrolling = setTimeout(onStoppedScrolling, 100);
+    onScrollTimer = setTimeout(onStoppedScrolling, 100);
   }
   
   setTimeout(() => {
     // Clear whitespace
-    root.lastChild && root.lastChild.nodeType === 3 && (root.lastChild.nodeValue = '')
+    vcontent.lastChild && vcontent.lastChild.nodeType === 3 && (vcontent.lastChild.nodeValue = '')
 
     const chunk = fragments.slice(curVp)
     for (let i = 0; i < chunk.length; i++) {
       const item = chunk[i][1]
-      root.appendChild(item)
+      vcontent.appendChild(item)
     }
-    root.scrollTop = root.scrollHeight;
-    console.log(root.scrollTop, root.scrollHeight)
+    vcontent.scrollTop = vcontent.scrollHeight;
   }, 100)
+
+  const renderChunk = () => {
+    setTimeout(() => {
+      console.log('isScrolling ' + isScrolling)
+      if (isScrolling)
+        return
+
+      // Remove children
+      let child = vcontent.lastElementChild
+      while (child) {
+        vcontent.removeChild(child)
+        child = vcontent.lastElementChild
+      }
+
+      curVp = fragments.length > maxVp ? fragments.length - maxVp : fragments.length
+
+      const chunk = fragments.slice(curVp === 1 ? 0 : curVp)
+      
+      for (let i = 0; i < chunk.length; i++) {
+        const item = chunk[i][1]
+        vcontent.appendChild(item)
+      }
+      
+      vcontent.scrollTop = vcontent.scrollHeight;
+      // console.log(vcontent.scrollTop, vcontent.scrollHeight)
+      console.log('renderChunk '+curVp)
+    }, 100)
+  }
+
+  // Every 0.1 second, add some random text until fragments length is 100.  
+  let produceCount = 100
+
+  const producer = setInterval(() => {
+    queue.push(loremIpsum1)
+    
+    if (produceCount === 0)
+      clearInterval(producer)
+
+    produceCount--
+  }, 100)
+
+  const consumer = setInterval(() => {
+    if (isPaused || queue.length === 0)
+      return
+
+    const next = queue.shift()
+
+    const task = recalc(next)
+
+    createFragments(task)
+
+    renderChunk()
+
+    console.log(queue.length)
+  }, 500)
+
 })()
 </script>  
   
