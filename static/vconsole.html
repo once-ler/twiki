@@ -61,9 +61,13 @@ pre {
   -->
   
 <script>
-var loremIpsum1 = 
+var loremIpsum2 = 
 `
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Purus in mollis nunc sed id semper risus in. Nunc scelerisque viverra mauris in aliquam sem fringilla ut. Feugiat scelerisque varius morbi enim nunc faucibus a pellentesque sit. Metus dictum at tempor commodo ullamcorper a. Odio ut enim blandit volutpat maecenas volutpat blandit aliquam. Turpis egestas integer eget aliquet nibh. Vitae justo eget magna fermentum iaculis eu non. Adipiscing vitae proin sagittis nisl rhoncus. Nunc pulvinar sapien et ligula ullamcorper. Et malesuada fames ac turpis egestas sed tempus urna. Facilisi cras fermentum odio eu feugiat. Aliquet eget sit amet tellus cras adipiscing enim eu turpis. Ipsum nunc aliquet bibendum enim facilisis gravida neque convallis a. Sit amet est placerat in. Varius quam quisque id diam vel quam elementum pulvinar. Pellentesque elit eget gravida cum sociis natoque penatibus et. Convallis a cras semper auctor. Cras fermentum odio eu feugiat pretium nibh ipsum consequat.
+`
+
+var loremIpsum1 = 
+`Lorem ipsum dolor sit amet, consectetur adipiscing elit, ...
 `
 
 var loremIpsum5 =
@@ -134,23 +138,33 @@ A iaculis at erat pellentesque adipiscing commodo. Vulputate eu scelerisque feli
   let chunks = Math.ceil(reqSz / cellSz);
   let chunkSz = Math.ceil(tSz / chunks);
 
+  let maxVp = 4
+
   const recalc = text => {
     const tSz = text.length;
     const arrStr = text.split('')
     
+    const lineSz = Math.ceil(w / lsz)
     const newlines = (text.match(/\n/g) || []).length;
-    const newlineSz = newlines * Math.ceil(w / lsz); 
+    const newlineSz = newlines * lineSz; 
     
     const reqSz = (tSz * lsz) + newlineSz; 
     const cellSz = Math.ceil((w * h) / lsz);
     const chunks = Math.ceil(reqSz / cellSz);
     const chunkSz = Math.ceil(tSz / chunks);
 
-    console.log('text size: '+tSz)  
+    console.log('text size: '+tSz)
+    console.log('line size: '+lineSz)
     console.log('required size: '+reqSz);
     console.log('cell size: '+cellSz);
     console.log('chunk count: '+chunks);
     console.log('chunk size: '+chunkSz);
+
+    if (cellSz >= reqSz) {
+      const cellSzToReSzFactor = Math.ceil(cellSz/reqSz)
+      console.log('cell size >= req size: '+cellSzToReSzFactor)
+      maxVp = cellSzToReSzFactor
+    }
 
     return {arrStr, chunks, chunkSz}
   }
@@ -208,8 +222,6 @@ A iaculis at erat pellentesque adipiscing commodo. Vulputate eu scelerisque feli
   var curScrollTop = 0
   var curScrollHeight = vcontent.scrollHeight;
   
-  const maxVp = 4
-
   var curVp = fragments.length > maxVp ? fragments.length - maxVp : fragments.length
   var bumpScrollTop
   
@@ -223,6 +235,9 @@ A iaculis at erat pellentesque adipiscing commodo. Vulputate eu scelerisque feli
     console.log(curScrollTop, curScrollHeight)
     console.log(curScrollHeight - curScrollTop + h, curScrollHeight)
     console.log(curScrollTop, vcontent.scrollHeight)
+
+    const nextScrollHeight = vcontent.scrollHeight - (2 * h)
+        
 
     if ((curScrollTop + h + 20 > curScrollHeight)) {
       console.log('Scrolling down', isVolatile)
@@ -246,21 +261,30 @@ A iaculis at erat pellentesque adipiscing commodo. Vulputate eu scelerisque feli
         // Remove
         vcontent.removeChild(vcontent.firstChild)
         
+        console.log(curScrollHeight)
         console.log(vcontent.scrollTop, vcontent.scrollHeight)
 
-        curScrollHeight = vcontent.scrollHeight - (2 * h)
-
-        console.log(curScrollHeight)
-
+        let nextScrollTop = nextScrollHeight
+        if (nextScrollHeight > 0) {
+          curScrollHeight = nextScrollHeight
+        } else {
+          // Keep curScrollHeight the same and adjust nextScrollTop to 2/3 of scrollHeight.
+          nextScrollTop = Math.floor(vcontent.scrollHeight / 3)
+        }
+        
         // Move up a little.
-        console.log('Bumping')
-        vcontent.scrollTop = curScrollHeight
+        console.log('Bumping up '+ nextScrollTop)
+        vcontent.scrollTop = nextScrollTop
         isVolatile = 0
       }
     }
 
     // Scrolling up.
-    if (!isVolatile && (curScrollHeight - curScrollTop + h > curScrollHeight) && curVp > 0) {      
+    const shouldScrollUp = nextScrollHeight > 0 
+      ? (curScrollHeight - curScrollTop + h > curScrollHeight)
+      : Math.ceil(0.1 * curScrollHeight) >= curScrollTop 
+
+    if (!isVolatile && shouldScrollUp && curVp > 0) {      
       isVolatile = 1
       // console.log('Scrolling up')   
       const chunk = fragments.slice(curVp - 1)
