@@ -67,7 +67,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 `
 
 var loremIpsum1 = 
-`Lorem ipsum dolor sit amet, consectetur adipiscing elit, ...
+`
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, ...
 `
 
 var loremIpsum5 =
@@ -222,7 +223,7 @@ A iaculis at erat pellentesque adipiscing commodo. Vulputate eu scelerisque feli
   var curScrollTop = 0
   var curScrollHeight = vcontent.scrollHeight;
   
-  var curVp = fragments.length > maxVp ? fragments.length - maxVp : fragments.length
+  var curVp = 0 // fragments.length > maxVp ? fragments.length - maxVp : fragments.length
   var bumpScrollTop
   
   var isVolatile = 0
@@ -236,9 +237,11 @@ A iaculis at erat pellentesque adipiscing commodo. Vulputate eu scelerisque feli
     console.log(curScrollHeight - curScrollTop + h, curScrollHeight)
     console.log(curScrollTop, vcontent.scrollHeight)
 
-    const nextScrollHeight = vcontent.scrollHeight - (2 * h)
-        
-
+    // const nextScrollHeight = vcontent.scrollHeight - (2 * h)
+    // Depending on where scrollTop is, slices of viewport will be removed.
+    // Tentatively calculate next scrollHeight by subtracting half of max viewport slices allowed.
+    const nextScrollHeight = vcontent.scrollHeight - (Math.ceil(maxVp/2) * h)
+    
     if ((curScrollTop + h + 20 > curScrollHeight)) {
       console.log('Scrolling down', isVolatile)
       const lastVp = parseInt(vcontent.lastElementChild.dataset.idx)
@@ -264,11 +267,14 @@ A iaculis at erat pellentesque adipiscing commodo. Vulputate eu scelerisque feli
         console.log(curScrollHeight)
         console.log(vcontent.scrollTop, vcontent.scrollHeight)
 
+        console.log('nextScrollHeight: '+nextScrollHeight)
+        
         let nextScrollTop = nextScrollHeight
         if (nextScrollHeight > 0) {
           curScrollHeight = nextScrollHeight
         } else {
           // Keep curScrollHeight the same and adjust nextScrollTop to 2/3 of scrollHeight.
+          // nextScrollTop = Math.floor(vcontent.scrollHeight / 3)
           nextScrollTop = Math.floor(vcontent.scrollHeight / 3)
         }
         
@@ -344,11 +350,13 @@ A iaculis at erat pellentesque adipiscing commodo. Vulputate eu scelerisque feli
       if (isScrolling)
         return
 
-      // Remove children
-      let child = vcontent.lastElementChild
-      while (child) {
-        vcontent.removeChild(child)
-        child = vcontent.lastElementChild
+      if (fragments.length > maxVp) {
+        // Remove children
+        let child = vcontent.lastElementChild
+        while (child) {
+          vcontent.removeChild(child)
+          child = vcontent.lastElementChild
+        }
       }
 
       curVp = fragments.length > maxVp ? fragments.length - maxVp : fragments.length
