@@ -1,6 +1,6 @@
 {
   "name": "v4",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "bidi bidi bidi",
   "main": "index.js",
   "scripts": {

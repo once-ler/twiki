@@ -81,6 +81,15 @@ div .autotags-list {
   content: '×';
 }
 
+.autotags-dd-container {
+  flex-wrap: wrap;
+  display: none;
+}
+
+.autotags-dd-container.visible {
+  display: flex;
+}
+
 .autotags-dd-btn {
   width: 30px;
   height: 30px;

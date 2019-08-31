@@ -15,6 +15,8 @@ class AutoTags {
 
   dropdown_label = null
 
+  dropdownContainer = null
+
   constructor(props, elem) {
     const { itemOnClick, itemOnRemove } = props
     this.userItemOnClick = itemOnClick
@@ -113,6 +115,8 @@ class AutoTags {
   }
 
   appendDropdownButton = resList => {
+    this.dropdownContainer = document.createElement('div')
+    this.dropdownContainer.setAttribute('class', 'autotags-dd-container') 
     const itemDropdown = document.createElement('button')
     itemDropdown.setAttribute('class', 'autotags-dd-btn down')
     itemDropdown.onclick = e => {
@@ -121,7 +125,9 @@ class AutoTags {
       itemDropdown.classList.toggle('up')
       this.autotags_result.classList.toggle('visible')
     }
-    resList.parentNode.insertBefore(itemDropdown, resList)
+    // resList.parentNode.insertBefore(itemDropdown, resList)
+    this.dropdownContainer.appendChild(itemDropdown)
+    resList.parentNode.insertBefore(this.dropdownContainer, resList)
     this.appendDropdownLabel(itemDropdown)
   }
 
@@ -132,6 +138,8 @@ class AutoTags {
 
   updateDropdownLabel = () => {
     this.dropdown_label && (this.dropdown_label.innerText = `${this.tags.length} items`)
+    this.tags.length > 0 && !this.dropdownContainer.classList.contains('visible') && this.dropdownContainer.classList.add('visible')
+    this.tags.length === 0 && this.dropdownContainer.classList.contains('visible') && this.dropdownContainer.classList.remove('visible')
   }
 
   itemOnRemove = () => {}
