@@ -115,7 +115,8 @@ class AutoTags {
   appendDropdownButton = resList => {
     const itemDropdown = document.createElement('button')
     itemDropdown.setAttribute('class', 'autotags-dd-btn down')
-    itemDropdown.onclick = () => {
+    itemDropdown.onclick = e => {
+      e.preventDefault()
       itemDropdown.classList.toggle('down')
       itemDropdown.classList.toggle('up')
       this.autotags_result.classList.toggle('visible')
