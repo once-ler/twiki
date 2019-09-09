@@ -3,7 +3,8 @@ global.jsonp = require('jsonp')
 new AutoComplete(
   {
     endpoint: 'https://www.reddit.com/search.json?restrict_sr=1&limit=5&jsonp=callback&q=',
-    elemId:'autocomplete'
+    elemId:'autocomplete',
+    onError: errorMessage => { console.log(errorMessage); }
   }
 )
 

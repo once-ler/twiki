@@ -8,7 +8,7 @@ class AutoComplete {
   autocomplete_result = null
  
   constructor(props, elem) {
-    const {elemId, endpoint, getItems, getItemKey, getItemValue, itemOnClick} = props
+    const {elemId, endpoint, getItems, getItemKey, getItemValue, itemOnClick, onError} = props
     this.elemId = elemId
     this.endpoint = endpoint
     
@@ -43,6 +43,8 @@ class AutoComplete {
     getItemKey && (this.getItemKey = getItemKey)
     getItemValue && (this.getItemValue = getItemValue)
     itemOnClick && (this.itemOnClick = itemOnClick)
+
+    onError && (this.onError = onError) 
   }
   
   updPopup = () =>  {
@@ -51,7 +53,7 @@ class AutoComplete {
       return
     }
     var url_ = this.endpoint + this.autocomplete.value;
-    jsonp(url_, {param : 'jsonp'}, this.processCallback)
+    jsonp(url_, {param: 'jsonp', onerror: this.onError}, this.processCallback)
   }
 
   popupClearAndHide = () => {
@@ -60,10 +62,16 @@ class AutoComplete {
   }
 
   processCallback = (err, res) => {
+    if (err) {
+      this.popupClearAndHide()
+      this.onError(err.message)
+      return
+    }
+
     const items = this.getItems(res)
     
     if (items.length === 0) {
-      this.popupClearAndHide();
+      this.popupClearAndHide()
       return
     }
 
@@ -102,6 +110,7 @@ class AutoComplete {
 
   itemOnClick = item => {}
   
+  onError = errorMessage => {}
 }
 
 export default AutoComplete
