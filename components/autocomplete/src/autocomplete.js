@@ -61,6 +61,14 @@ class AutoComplete {
     this.autocomplete_result.style.display = "none"
   }
 
+  updateValue = (code, display) => {
+    this.autocomplete.dataset.id = code
+    this.autocomplete.dataset.display = display
+    this.autocomplete.value = display
+    this.autocomplete_result.innerHTML = ''
+    this.autocomplete_result.style.display = 'none'
+  }
+
   processCallback = (err, res) => {
     if (err) {
       this.popupClearAndHide()
@@ -75,8 +83,6 @@ class AutoComplete {
       return
     }
 
-    const elemId = this.elemId
-    const itemOnClick = this.itemOnClick
     const b = document.createDocumentFragment();
 
     items.forEach(item => {          
@@ -86,15 +92,10 @@ class AutoComplete {
       d.dataset.id = code
       d.innerText = display
       d.onclick = () => {
-        const autocomplete = document.getElementById(`${elemId}`)
-        const autocomplete_result = document.getElementById(`${elemId}_result`)
-        autocomplete.dataset.id = code
-        autocomplete.dataset.display = display
-        autocomplete.value = display
-        autocomplete_result.innerHTML=''
-        autocomplete_result.style.display='none'
-        itemOnClick({code, display})
+        this.updateValue(code, display)
+        this.itemOnClick({code, display})
       }
+      d.onclick = d.onclick.bind(this)      
       b.appendChild(d);
     })
 
