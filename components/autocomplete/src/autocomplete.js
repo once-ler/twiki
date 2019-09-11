@@ -64,7 +64,7 @@ class AutoComplete {
   processCallback = (err, res) => {
     if (err) {
       this.popupClearAndHide()
-      this.onError(err.message)
+      this.onError(`${err.message}\n`)
       return
     }
 
@@ -89,6 +89,7 @@ class AutoComplete {
         const autocomplete = document.getElementById(`${elemId}`)
         const autocomplete_result = document.getElementById(`${elemId}_result`)
         autocomplete.dataset.id = code
+        autocomplete.dataset.display = display
         autocomplete.value = display
         autocomplete_result.innerHTML=''
         autocomplete_result.style.display='none'
