@@ -53,7 +53,7 @@ class AutoComplete {
       return
     }
     var url_ = this.endpoint + this.autocomplete.value;
-    jsonp(url_, {param: 'jsonp', onerror: this.onError}, this.processCallback)
+    jsonp(url_, {param: 'jsonp'}, this.processCallback)
   }
 
   popupClearAndHide = () => {
