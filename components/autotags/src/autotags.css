@@ -2,7 +2,7 @@ div .autotags-list {
   display: flex;
   flex-wrap: wrap;
   width: 210px;
-  background-color: #fff;
+  /* background-color: #fff; */
   font-weight: 300;
   z-index: 2;
   margin-bottom: 10px;
@@ -97,23 +97,26 @@ div .autotags-list {
   border: none;
   outline:none;
   cursor: pointer;
-  color: #af5b5e;
-  font-size: 20px;
-  border-radius:50%;
-  -moz-border-radius:50%;
-  -webkit-border-radius:50%;
+  color: #777777;
+  font-size: 15px;
+  display:inline-block;
+  -webkit-transform:scale(2,1); /* Safari and Chrome */
+  -moz-transform:scale(2,1); /* Firefox */
+  -ms-transform:scale(2,1); /* IE 9 */
+  -o-transform:scale(2,1); /* Opera */
+  transform:scale(2,1); /* W3C */
   margin-left: 5px;
 }
 
 .autotags-dd-btn:hover {
-  box-shadow: 0 5px 10px #aaa;
+  font-weight: 800;
 }
 
 /* https://www.w3schools.com/charsets/ref_utf_geometric.asp */
 .autotags-dd-btn.down:after {
-  content: '\25BC';
+  content: '\22C1';
 }
 
 .autotags-dd-btn.up:after {
-  content: '\25B2';
+  content: '\22C0';
 }

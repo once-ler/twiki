@@ -18,41 +18,19 @@ class AutoTags {
   dropdownContainer = null
 
   constructor(props, elem) {
-    const { itemOnClick, itemOnRemove } = props
+    // Use case for hideAutocomplete
+    // is when user wants AutoTags to act like a static dropdown with an existing list defined at "autotags-list".
+    const { itemOnClick, itemOnRemove, hideAutocomplete } = props
     this.userItemOnClick = itemOnClick
 
-    const nextProps = { ...props, itemOnClick: this.addTag }
+    const nextProps = { ...props, itemOnClick: this.addTag, hide: hideAutocomplete }
 
     this.autocomplete = new AutoComplete(nextProps, elem)
 
     this.elemId = this.autocomplete.elemId
     this.autocomplete_el = this.autocomplete.autocomplete
 
-    // Check for existing list container.  It is the previous sibling.
-    const prevEl = this.autocomplete_el.previousElementSibling
-
-    if (prevEl && this.hasClass(prevEl, 'autotags-list') && prevEl.querySelector('ul')) {
-      const resList = prevEl.querySelector('ul')
-      this.appendDropdownButton(resList)
-      this.autotags_result = resList
-      // Attach destroy button to each li item.
-      const items = resList.children
-      for (let i = 0; i < items.length; i++) {
-        const itemEl = items[i]
-        const code = itemEl.dataset.id
-        const label = itemEl.querySelector('label')
-        
-        if (!code || !label)
-          continue
-        this.appendDestroyButton(itemEl)
-        // Add to tags.
-        this.tags.push({code, display: label.textContent || label.innerText || label.nodeValue})
-      }
-
-      this.autocomplete_el.dataset.list = JSON.stringify(this.tags)
-    } else {
-      this.appendListContainer()    
-    }
+    this.updateExistingList()
 
     itemOnRemove && (this.itemOnRemove = itemOnRemove)
 
@@ -143,6 +121,35 @@ class AutoTags {
   }
 
   itemOnRemove = () => {}
+
+  updateExistingList = () => {
+    // Check for existing list container.  It is the previous sibling.
+    const prevEl = this.autocomplete_el.previousElementSibling
+
+    if (prevEl && this.hasClass(prevEl, 'autotags-list') && prevEl.querySelector('ul')) {
+      const resList = prevEl.querySelector('ul')
+      this.appendDropdownButton(resList)
+      this.autotags_result = resList
+      // Attach destroy button to each li item.
+      const items = resList.children
+      for (let i = 0; i < items.length; i++) {
+        const itemEl = items[i]
+        const code = itemEl.dataset.id
+        const label = itemEl.querySelector('label')
+        
+        if (!code || !label)
+          continue
+        this.appendDestroyButton(itemEl)
+        // Add to tags.
+        this.tags.push({code, display: label.textContent || label.innerText || label.nodeValue})
+      }
+
+      this.autocomplete_el.dataset.list = JSON.stringify(this.tags)
+    } else {
+      this.appendListContainer()    
+    }    
+  }
+
 }
 
 export default AutoTags

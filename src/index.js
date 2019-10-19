@@ -58,3 +58,12 @@ new AutoTags(
 
 const ac5 = document.querySelector("[name='/G/H/I']")
 ac5.onchange = () => setTimeout(() => { document.getElementById('autotags2-log').innerHTML = `reddit id: ${ac5.dataset.list}` }, 200)
+
+new AutoTags(
+  {
+    hideAutocomplete: true
+  },
+  document.querySelector("[name='/J/K/L']")
+)
+
+// No log necessary for when hideAutocomplete is true.

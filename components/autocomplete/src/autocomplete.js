@@ -8,7 +8,7 @@ class AutoComplete {
   autocomplete_result = null
  
   constructor(props, elem) {
-    const {elemId, endpoint, getItems, getItemKey, getItemValue, itemOnClick, onError} = props
+    const {elemId, endpoint, getItems, getItemKey, getItemValue, itemOnClick, onError, hide} = props
     this.elemId = elemId
     this.endpoint = endpoint
     
@@ -44,7 +44,10 @@ class AutoComplete {
     getItemValue && (this.getItemValue = getItemValue)
     itemOnClick && (this.itemOnClick = itemOnClick)
 
-    onError && (this.onError = onError) 
+    onError && (this.onError = onError)
+
+    if (hide)
+      this.autocomplete.style.display = 'none'
   }
   
   updPopup = () =>  {
