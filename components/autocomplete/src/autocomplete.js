@@ -116,6 +116,8 @@ class AutoComplete {
   itemOnClick = item => {}
   
   onError = errorMessage => {}
+
+  reset = () => this.updateValue('', '')
 }
 
 export default AutoComplete

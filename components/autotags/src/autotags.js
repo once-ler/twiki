@@ -167,6 +167,20 @@ class AutoTags {
     }    
   }
 
+  reset = () => {
+    this.autocomplete.reset()
+    this.autocomplete_el.dataset.list = '[]'
+    this.tags = []
+    
+    let child = this.autotags_result.lastElementChild;
+    while (child) {
+      this.autotags_result.removeChild(child);
+      child = this.autotags_result.lastElementChild;
+    }
+
+    this.updateDropdownLabel()
+  }
+
 }
 
 export default AutoTags

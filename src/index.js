@@ -42,7 +42,7 @@ new AutoTags(
 const ac4 = document.querySelector("[name='/D/E/F']")
 ac4.onchange = () => setTimeout(() => { document.getElementById('autotags-log').innerHTML = `reddit id: ${ac4.dataset.list}` }, 200)
 
-new AutoTags(
+const at0 = new AutoTags(
   {
     endpoint: 'https://www.reddit.com/search.json?restrict_sr=1&limit=5&jsonp=callback&q=',
     itemOnClick: item => console.log(item),
@@ -75,4 +75,5 @@ const at = new AutoTags(
 // We can add another row later without user interaction.
 at.addTag({code: 'BAR4', display: 'Alas. Another Bar'})
 
-// No log necessary for when hideAutocomplete is true.
+// Test reset
+// setTimeout(() => at0.reset(), 5000)
