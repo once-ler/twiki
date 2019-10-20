@@ -59,11 +59,14 @@ new AutoTags(
 const ac5 = document.querySelector("[name='/G/H/I']")
 ac5.onchange = () => setTimeout(() => { document.getElementById('autotags2-log').innerHTML = `reddit id: ${ac5.dataset.list}` }, 200)
 
-new AutoTags(
+const at = new AutoTags(
   {
     hideAutocomplete: true
   },
   document.querySelector("[name='/J/K/L']")
 )
+
+// We can add another row later without user interaction.
+at.addTag({code: 'BAR4', display: 'Alas. Another Bar'})
 
 // No log necessary for when hideAutocomplete is true.
