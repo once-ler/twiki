@@ -17,11 +17,16 @@ class AutoTags {
 
   dropdownContainer = null
 
+  hideAutocomplete = false
+
+  itemDropdown = null
+
   constructor(props, elem) {
     // Use case for hideAutocomplete
     // is when user wants AutoTags to act like a static dropdown with an existing list defined at "autotags-list".
     const { itemOnClick, itemOnRemove, hideAutocomplete } = props
     this.userItemOnClick = itemOnClick
+    this.hideAutocomplete = hideAutocomplete
 
     const nextProps = { ...props, itemOnClick: this.addTag, hide: hideAutocomplete }
 
@@ -52,15 +57,27 @@ class AutoTags {
 
   appendDestroyButton = itemEl => {
     const itemDestroy = document.createElement('button')
+    if (!this.hideAutocomplete)
+      itemDestroy.classList.add('destroy')
+    else
+      itemDestroy.classList.add('choose')
+
     itemDestroy.onclick = () => {
       const itemToRemove = this.tags.find(a => a.code === itemEl.dataset.id)
       if (!itemToRemove)
         return 
-      itemEl.parentNode.removeChild(itemEl)
-      const nextTags = this.tags.filter(a => a.code !== itemEl.dataset.id)
-      this.tags = nextTags
-      this.autocomplete_el.dataset.list = JSON.stringify(this.tags)
-      this.updateDropdownLabel()
+      // Only remove row if hideAutocomplete is false.
+      // Setting hideAutocomplete to true implicitly mean dropdown is a static list.
+      if (!this.hideAutocomplete) {
+        itemEl.parentNode.removeChild(itemEl)
+        const nextTags = this.tags.filter(a => a.code !== itemEl.dataset.id)
+        this.tags = nextTags
+        this.autocomplete_el.dataset.list = JSON.stringify(this.tags)
+        this.updateDropdownLabel()
+      } else {
+        // Close the dropdown.
+        this.itemDropdown.click()
+      }
       this.itemOnRemove(itemToRemove)
     }
     const itemLbl = itemEl.firstElementChild
@@ -76,7 +93,7 @@ class AutoTags {
     itemEl.appendChild(itemLbl)
     
     this.appendDestroyButton(itemEl)
-    this.autotags_result.appendChild(itemEl)    
+    this.autotags_result.appendChild(itemEl)      
   }
 
   addTag = item => {
@@ -95,18 +112,18 @@ class AutoTags {
   appendDropdownButton = resList => {
     this.dropdownContainer = document.createElement('div')
     this.dropdownContainer.setAttribute('class', 'autotags-dd-container') 
-    const itemDropdown = document.createElement('button')
-    itemDropdown.setAttribute('class', 'autotags-dd-btn down')
-    itemDropdown.onclick = e => {
+    this.itemDropdown = document.createElement('button')
+    this.itemDropdown.setAttribute('class', 'autotags-dd-btn down')
+    this.itemDropdown.onclick = e => {
       e.preventDefault()
-      itemDropdown.classList.toggle('down')
-      itemDropdown.classList.toggle('up')
+      this.itemDropdown.classList.toggle('down')
+      this.itemDropdown.classList.toggle('up')
       this.autotags_result.classList.toggle('visible')
     }
     // resList.parentNode.insertBefore(itemDropdown, resList)
-    this.dropdownContainer.appendChild(itemDropdown)
+    this.dropdownContainer.appendChild(this.itemDropdown)
     resList.parentNode.insertBefore(this.dropdownContainer, resList)
-    this.appendDropdownLabel(itemDropdown)
+    this.appendDropdownLabel(this.itemDropdown)
   }
 
   appendDropdownLabel = dropdownBtn => {

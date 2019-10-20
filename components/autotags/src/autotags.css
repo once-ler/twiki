@@ -63,8 +63,7 @@ div .autotags-list {
   width: 40px;
   height: 40px;
   margin: auto 0;
-  font-size: 35px;
-  color: #cc9a9a;
+  font-size: 35px;  
   background: none;
   border: 0;
   padding: 0;
@@ -73,12 +72,28 @@ div .autotags-list {
   text-align: right;
 }
 
-.autotags-list li button:hover {
+.autotags-list li button.destroy {
+  color: #cc9a9a;
+}
+
+.autotags-list li button.choose {
+  color: #67aa84;
+}
+
+.autotags-list li button.destroy:hover {
   color: #af5b5e;
 }
 
-.autotags-list li button:after {
+.autotags-list li button.choose:hover {
+  color: #2e8b57;
+}
+
+.autotags-list li button.destroy:after {
   content: '×';
+}
+
+.autotags-list li button.choose:after {
+  content: '\02713';
 }
 
 .autotags-dd-container {

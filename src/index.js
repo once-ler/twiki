@@ -61,7 +61,13 @@ ac5.onchange = () => setTimeout(() => { document.getElementById('autotags2-log')
 
 const at = new AutoTags(
   {
-    hideAutocomplete: true
+    hideAutocomplete: true,
+    itemOnRemove: item => {
+      console.log(item)
+
+      const ac6 = document.querySelector("[name='/J/K/L']")
+      setTimeout(() => { document.getElementById('autotags3-log').innerHTML = `You clicked ${item.display}.` }, 200)
+    }
   },
   document.querySelector("[name='/J/K/L']")
 )
