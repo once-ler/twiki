@@ -6,11 +6,15 @@ class AutoComplete {
   autocomplete = null
   
   autocomplete_result = null
+
+  // Set to true to fetch immediately on click.  Only use case is when downloading entire list on every invocation.
+  fetch_on_empty_value = false
  
   constructor(props, elem) {
-    const {elemId, endpoint, getItems, getItemKey, getItemValue, itemOnClick, onError, hide} = props
+    const {elemId, endpoint, getItems, getItemKey, getItemValue, itemOnClick, onError, hide, fetchOnEmptyValue} = props
     this.elemId = elemId
     this.endpoint = endpoint
+    this.fetch_on_empty_value = fetchOnEmptyValue || false
     
     this.autocomplete = elem || document.querySelector(`#${elemId}`)
     
@@ -26,7 +30,8 @@ class AutoComplete {
     }
     
     this.autocomplete.setAttribute('onlclick', 'this.setSelectionRange(0, this.value.length)')
-    this.autocomplete.addEventListener("keyup", this.updPopup);
+    this.autocomplete.addEventListener('keyup', this.updPopup)
+    this.autocomplete.addEventListener('focus', this.updPopup)
     
     const resDiv = document.createElement("div")
     resDiv.setAttribute("id", `${this.elemId}_result`)
@@ -51,17 +56,18 @@ class AutoComplete {
   }
   
   updPopup = () =>  {
-    if(!this.autocomplete.value || this.autocomplete.value.length < 2) {
+    if(!this.fetch_on_empty_value && (!this.autocomplete.value || this.autocomplete.value.length < 2)) {
       this.popupClearAndHide()
       return
     }
-    var url_ = this.endpoint + this.autocomplete.value;
+    // We stuff 'po' for fetch_on_empty_value.
+    const url_ = this.endpoint + (this.autocomplete.value || 'po')
     jsonp(url_, {param: 'jsonp'}, this.processCallback)
   }
 
   popupClearAndHide = () => {
-    this.autocomplete_result.innerHTML = ""
-    this.autocomplete_result.style.display = "none"
+    this.autocomplete_result.innerHTML = ''
+    this.autocomplete_result.style.display = 'none'
   }
 
   updateValue = (code, display) => {
@@ -89,7 +95,7 @@ class AutoComplete {
     const b = document.createDocumentFragment();
 
     items.forEach(item => {          
-      const d = document.createElement("p")
+      const d = document.createElement('p')
       const code = this.getItemKey(item)
       const display = this.getItemValue(item)
       d.dataset.id = code
@@ -102,8 +108,8 @@ class AutoComplete {
       b.appendChild(d);
     })
 
-    this.autocomplete_result.innerHTML = ""
-    this.autocomplete_result.style.display = "block"
+    this.autocomplete_result.innerHTML = ''
+    this.autocomplete_result.style.display = 'block'
     this.autocomplete_result.appendChild(b)    
   }
 

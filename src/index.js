@@ -31,6 +31,17 @@ new AutoComplete(
 const ac3 = document.querySelector("[name='A:B:C']")
 ac3.onchange = () => setTimeout(() => { document.getElementById('autocomplete3-log').innerHTML = `reddit id: ${ac3.dataset.id}` }, 200)
 
+new AutoComplete(
+  {
+    endpoint: 'https://www.reddit.com/search.json?restrict_sr=1&limit=5&jsonp=callback&q=',
+    elemId:'autocomplete4',
+    fetchOnEmptyValue: true
+  }
+)
+
+const ac4_0 = document.getElementById('autocomplete4')
+ac4_0.onchange = () => setTimeout(() => { document.getElementById('autocomplete4-log').innerHTML = `reddit id: ${ac4_0.dataset.id}` }, 200)
+
 new AutoTags(
   {
     endpoint: 'https://www.reddit.com/search.json?restrict_sr=1&limit=5&jsonp=callback&q=',
