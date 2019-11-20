@@ -29,7 +29,6 @@ class AutoComplete {
       this.elemId = this.autocomplete.getAttribute("id");
     }
     
-    this.autocomplete.setAttribute('onlclick', 'this.setSelectionRange(0, this.value.length)')
     this.autocomplete.addEventListener('keyup', this.updPopup)
     this.autocomplete.addEventListener('focus', this.updPopup)
     
