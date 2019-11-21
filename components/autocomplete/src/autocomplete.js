@@ -73,8 +73,7 @@ class AutoComplete {
     this.autocomplete.dataset.id = code
     this.autocomplete.dataset.display = display
     this.autocomplete.value = display
-    this.autocomplete_result.innerHTML = ''
-    this.autocomplete_result.style.display = 'none'
+    this.popupClearAndHide()
   }
 
   processCallback = (err, res) => {
