@@ -31,6 +31,7 @@ class AutoComplete {
     
     this.autocomplete.addEventListener('keyup', this.updPopup)
     this.autocomplete.addEventListener('focus', this.updPopup)
+    this.autocomplete.addEventListener('mousedown', this.updPopup)
     
     const resDiv = document.createElement("div")
     resDiv.setAttribute("id", `${this.elemId}_result`)
@@ -55,7 +56,11 @@ class AutoComplete {
   }
   
   updPopup = () =>  {
-    if(!this.fetch_on_empty_value && (!this.autocomplete.value || this.autocomplete.value.length < 2)) {
+    // First clause checks whether content has already been downloaded.
+    // If user mousedown on input that already has content, the expected behavior is user wants the dropdown to collapse.
+    // Second clause is generic autocomplete behavior. 
+    if((!this.fetch_on_empty_value || this.autocomplete_result.innerHTML.length > 0)
+      && (!this.autocomplete.value || this.autocomplete.value.length < 2)) {
       this.popupClearAndHide()
       return
     }
